@@ -1,0 +1,27 @@
+{
+  "concept": "village tavern, welcoming with broad terrace and decorative trim",
+  "strategy": "few_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"traditional\",\n  \"floors\": 2,\n  \"roof_type\": \"terraced\",\n  \"palette\": {\n    \"wall\": \"minecraft:white_terracotta\",\n    \"roof\": \"minecraft:terracotta\",\n    \"accent\": \"minecraft:stone_bricks\",\n    \"trim\": \"minecraft:light_blue_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 10,\n    \"depth\": 9\n  },\n  \"decorations\": [\n    \"pergola\",\n    \"flower_pots\",\n    \"stone_path\",\n    \"shutters\"\n  ]\n}",
+  "params": {
+    "style": "traditional",
+    "floors": 2,
+    "roof_type": "terraced",
+    "palette": {
+      "wall": "minecraft:white_terracotta",
+      "roof": "minecraft:terracotta",
+      "accent": "minecraft:stone_bricks",
+      "trim": "minecraft:light_blue_terracotta"
+    },
+    "footprint": {
+      "width": 10,
+      "depth": 9
+    },
+    "decorations": [
+      "pergola",
+      "flower_pots",
+      "stone_path",
+      "shutters"
+    ]
+  }
+}
