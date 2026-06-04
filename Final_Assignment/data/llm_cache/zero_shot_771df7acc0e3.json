@@ -1,0 +1,25 @@
+{
+  "concept": "spacious family home, white walls, blue shutters, gabled roof",
+  "strategy": "zero_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"cycladic\",\n  \"floors\": 2,\n  \"roof_type\": \"gabled\",\n  \"palette\": {\n    \"wall\": \"minecraft:white_concrete\",\n    \"roof\": \"minecraft:terracotta\",\n    \"accent\": \"minecraft:white_terracotta\",\n    \"trim\": \"minecraft:blue_concrete\"\n  },\n  \"footprint\": {\n    \"width\": 10,\n    \"depth\": 10\n  },\n  \"decorations\": [\n    \"shutters\",\n    \"flower_pots\"\n  ]\n}",
+  "params": {
+    "style": "cycladic",
+    "floors": 2,
+    "roof_type": "gabled",
+    "palette": {
+      "wall": "minecraft:white_concrete",
+      "roof": "minecraft:terracotta",
+      "accent": "minecraft:white_terracotta",
+      "trim": "minecraft:blue_concrete"
+    },
+    "footprint": {
+      "width": 10,
+      "depth": 10
+    },
+    "decorations": [
+      "shutters",
+      "flower_pots"
+    ]
+  }
+}

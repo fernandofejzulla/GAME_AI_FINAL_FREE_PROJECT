@@ -1,0 +1,25 @@
+{
+  "concept": "tiny one-room shepherd's hut on a hillside",
+  "strategy": "few_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"hillside\",\n  \"floors\": 1,\n  \"roof_type\": \"gabled\",\n  \"palette\": {\n    \"wall\": \"minecraft:calcite\",\n    \"roof\": \"minecraft:terracotta\",\n    \"accent\": \"minecraft:cobblestone\",\n    \"trim\": \"minecraft:white_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 5,\n    \"depth\": 6\n  },\n  \"decorations\": [\n    \"chimney\",\n    \"stone_path\"\n  ]\n}",
+  "params": {
+    "style": "hillside",
+    "floors": 1,
+    "roof_type": "gabled",
+    "palette": {
+      "wall": "minecraft:calcite",
+      "roof": "minecraft:terracotta",
+      "accent": "minecraft:cobblestone",
+      "trim": "minecraft:white_terracotta"
+    },
+    "footprint": {
+      "width": 5,
+      "depth": 6
+    },
+    "decorations": [
+      "chimney",
+      "stone_path"
+    ]
+  }
+}

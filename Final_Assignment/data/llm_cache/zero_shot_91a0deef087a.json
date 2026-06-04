@@ -1,0 +1,26 @@
+{
+  "concept": "modest village house with a stone path and chimney",
+  "strategy": "zero_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"cycladic\",\n  \"floors\": 1,\n  \"roof_type\": \"flat\",\n  \"palette\": {\n    \"wall\": \"minecraft:white_concrete\",\n    \"roof\": \"minecraft:white_concrete\",\n    \"accent\": \"minecraft:white_terracotta\",\n    \"trim\": \"minecraft:smooth_quartz\"\n  },\n  \"footprint\": {\n    \"width\": 8,\n    \"depth\": 8\n  },\n  \"decorations\": [\n    \"chimney\",\n    \"stone_path\",\n    \"shutters\"\n  ]\n}",
+  "params": {
+    "style": "cycladic",
+    "floors": 1,
+    "roof_type": "flat",
+    "palette": {
+      "wall": "minecraft:white_concrete",
+      "roof": "minecraft:white_concrete",
+      "accent": "minecraft:white_terracotta",
+      "trim": "minecraft:smooth_quartz"
+    },
+    "footprint": {
+      "width": 8,
+      "depth": 8
+    },
+    "decorations": [
+      "chimney",
+      "stone_path",
+      "shutters"
+    ]
+  }
+}
