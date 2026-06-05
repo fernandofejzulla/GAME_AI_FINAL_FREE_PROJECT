@@ -1,21 +1,34 @@
 concept,strategy,gemini_concept_fit,gemini_cultural,gemini_coherence,gemini_total,llama_concept_fit,llama_cultural,llama_coherence,llama_total
-"fisherman's cottage by the sea, simple and weathered",zero_shot,8,6,8,22,8.0,6.0,7.0,21.0
-"fisherman's cottage by the sea, simple and weathered",few_shot,7,3,8,18,8.0,6.0,9.0,23.0
-small Cycladic cottage with a flower-pot porch,zero_shot,9,6,9,24,8.0,6.0,7.0,21.0
-small Cycladic cottage with a flower-pot porch,few_shot,9,9,10,28,8.0,9.0,7.0,24.0
-tiny one-room shepherd's hut on a hillside,zero_shot,7,5,8,20,8.0,4.0,6.0,18.0
-tiny one-room shepherd's hut on a hillside,few_shot,7,4,8,19,8.0,4.0,7.0,19.0
-modest village house with a stone path and chimney,zero_shot,9,6,9,24,8.0,7.0,9.0,24.0
-modest village house with a stone path and chimney,few_shot,9,3,8,20,8.0,6.0,9.0,23.0
-wealthy merchant's two-story house with balcony and ornate trim,zero_shot,7,9,9,25,8.0,6.0,7.0,21.0
-wealthy merchant's two-story house with balcony and ornate trim,few_shot,6,9,9,24,8.0,6.0,7.0,21.0
-two-story Mykonos seaside villa with pergola and rooftop terrace,zero_shot,10,9,10,29,8.0,7.0,9.0,24.0
-two-story Mykonos seaside villa with pergola and rooftop terrace,few_shot,9,8,9,26,8.0,6.0,9.0,23.0
-rustic farmer's house with stone accents and rooftop terrace,zero_shot,9,6,9,24,8.0,6.0,9.0,23.0
-rustic farmer's house with stone accents and rooftop terrace,few_shot,9,7,9,25,8.0,6.0,9.0,23.0
-"spacious family home, white walls, blue shutters, gabled roof",zero_shot,9,3,8,20,8.0,9.0,7.0,24.0
-"spacious family home, white walls, blue shutters, gabled roof",few_shot,9,3,8,20,8.0,7.0,9.0,24.0
-small whitewashed chapel with a prominent blue dome,zero_shot,10,9,10,29,8.0,9.0,7.0,24.0
-small whitewashed chapel with a prominent blue dome,few_shot,9,10,10,29,8.0,9.0,7.0,24.0
-"village tavern, welcoming with broad terrace and decorative trim",zero_shot,8,9,7,24,,,,
-"village tavern, welcoming with broad terrace and decorative trim",few_shot,9,7,9,25,,,,
+"fisherman's cottage by the sea, simple and weathered",zero_shot,8,6,8,22,8,6,7,21
+"fisherman's cottage by the sea, simple and weathered",few_shot,7,3,8,18,8,6,9,23
+small Cycladic cottage with a flower-pot porch,zero_shot,9,6,9,24,8,6,7,21
+small Cycladic cottage with a flower-pot porch,few_shot,9,9,10,28,8,9,7,24
+tiny one-room shepherd's hut on a hillside,zero_shot,7,5,8,20,8,4,6,18
+tiny one-room shepherd's hut on a hillside,few_shot,7,4,8,19,8,4,7,19
+modest village house with a stone path and chimney,zero_shot,9,6,9,24,8,7,9,24
+modest village house with a stone path and chimney,few_shot,9,3,8,20,8,6,9,23
+wealthy merchant's two-story house with balcony and ornate trim,zero_shot,7,9,9,25,8,6,7,21
+wealthy merchant's two-story house with balcony and ornate trim,few_shot,6,9,9,24,8,6,7,21
+two-story Mykonos seaside villa with pergola and rooftop terrace,zero_shot,10,9,10,29,8,7,9,24
+two-story Mykonos seaside villa with pergola and rooftop terrace,few_shot,9,8,9,26,8,6,9,23
+rustic farmer's house with stone accents and rooftop terrace,zero_shot,9,6,9,24,8,6,9,23
+rustic farmer's house with stone accents and rooftop terrace,few_shot,9,7,9,25,8,6,9,23
+"spacious family home, white walls, blue shutters, gabled roof",zero_shot,9,3,8,20,8,9,7,24
+"spacious family home, white walls, blue shutters, gabled roof",few_shot,9,3,8,20,8,7,9,24
+small whitewashed chapel with a prominent blue dome,zero_shot,10,9,10,29,8,9,7,24
+small whitewashed chapel with a prominent blue dome,few_shot,9,10,10,29,8,9,7,24
+tiny clifftop chapel with a single cross,zero_shot,8,10,10,28,8,9,7,24
+tiny clifftop chapel with a single cross,few_shot,9,10,10,29,8,9,7,24
+blue-domed church with bell tower,zero_shot,10,9,10,29,8,9,7,24
+blue-domed church with bell tower,few_shot,10,9,9,28,8,9,7,24
+village chapel with stone foundation and white dome,zero_shot,9,7,9,25,8,6,9,23
+village chapel with stone foundation and white dome,few_shot,10,7,10,27,8,6,9,23
+"village tavern, welcoming with broad terrace and decorative trim",zero_shot,8,9,7,24,8,9,7,24
+"village tavern, welcoming with broad terrace and decorative trim",few_shot,9,7,9,25,8,9,7,24
+small bakery with chimney and shuttered windows,zero_shot,9,10,10,29,8,9,7,24
+small bakery with chimney and shuttered windows,few_shot,9,8,9,26,8,9,7,24
+"harbour-side fish market, single floor, simple and weathered",zero_shot,8,6,9,23,8,6,9,23
+"harbour-side fish market, single floor, simple and weathered",few_shot,9,6,9,24,8,6,9,23
+blacksmith's workshop with stone walls and rooftop chimney,zero_shot,7,3,8,18,8,2,6,16
+blacksmith's workshop with stone walls and rooftop chimney,few_shot,7,3,8,18,8,4,6,18
+tiny white watchtower overlooking the sea,zero_shot,8,5,9,22,8,6,7,21
