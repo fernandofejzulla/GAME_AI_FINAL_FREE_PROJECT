@@ -1,6 +1,5 @@
 """
-Experiment 1: MCTS vs Random village layout planner.
-
+Experiment 1: MCTS vs Random village layout planner
 For each of N seeds, generate a synthetic island heightmap and run four conditions:
 random baseline, MCTS-100, MCTS-500, MCTS-1000.
 """
@@ -24,7 +23,7 @@ from src.mcts.planner import (
 )
 
 
-# matches the islands actually built in Minecraft.
+#matches the islands actually built in Minecraft
 SEA_LEVEL = 63
 MAX_ISLAND_HEIGHT = 12
 EDGE_MARGIN = 4
@@ -35,7 +34,7 @@ TARGET_BUILDINGS = 12
 N_SEEDS = 30
 
 
-# Minimal mocks so we can call get_candidate_positions without Minecraft.
+#Minimal mocks so we can call get_candidate_positions without Minecraft
 class _Coord:
     """Exposes both .x/.y (Rect convention) and .x/.z (BuildArea convention)."""
     def __init__(self, a, b):
@@ -58,7 +57,7 @@ class _MockBuildArea:
 
 def compute_island_heightmap(width: int, depth: int, seed: int) -> np.ndarray:
     """Generate a synthetic island heightmap using the same algorithm as src/pcg/island.py.
-    Returns absolute Y of the first AIR block above ground at each (x, z)."""
+    Returns absolute Y of the first AIR block above ground at each (x, z)"""
     cx, cz = width / 2, depth / 2
     max_radius = min(width, depth) / 2 - EDGE_MARGIN
     noise = OpenSimplex(seed=seed)
@@ -74,7 +73,7 @@ def compute_island_heightmap(width: int, depth: int, seed: int) -> np.ndarray:
 
     abs_h = SEA_LEVEL + rel
     abs_h[rel == 0] = SEA_LEVEL
-    return abs_h + 1  # GDPC convention: Y of first air block above the surface
+    return abs_h + 1  #Y of first air block above the surface
 
 
 def run_single_seed(seed: int) -> dict:
@@ -84,9 +83,11 @@ def run_single_seed(seed: int) -> dict:
     build_area = _MockBuildArea(0, 0, BUILD_AREA_SIZE, BUILD_AREA_SIZE)
 
     candidates = get_candidate_positions(heightmap, rect, build_area)
+    #Skip seeds where the island is too small or too steep to fit
     if len(candidates) < TARGET_BUILDINGS:
         return None
 
+    #Same seed across all four conditions so the comparison is paired
     scores = {}
     scores['random'] = score_layout(random_layout(candidates, TARGET_BUILDINGS, seed))
     scores['mcts_100'] = score_layout(mcts_search(candidates, TARGET_BUILDINGS, 100, seed))
@@ -116,7 +117,7 @@ def main():
         seeds_used.append(seed)
         print(" ".join(f"{c}={result[c]:.3f}" for c in ['random', 'mcts_100', 'mcts_500', 'mcts_1000']))
 
-    # ---- Save raw data ----
+    #Save raw data 
     csv_path = output_dir / "exp_mcts_vs_random.csv"
     with open(csv_path, "w", newline="") as f:
         writer = csv.writer(f)
@@ -126,14 +127,15 @@ def main():
                 writer.writerow([seeds_used[s_idx], cond, f"{score:.4f}"])
     print(f"\nSaved raw scores: {csv_path}")
 
-    # ---- Summary stats ----
+    #Stats summary
     print(f"\n{'Condition':<12} {'Mean':>8} {'Std':>8} {'Median':>8} {'N':>5}")
     print("-" * 45)
     for cond in ['random', 'mcts_100', 'mcts_500', 'mcts_1000']:
         scores = np.array(all_scores[cond])
         print(f"{cond:<12} {scores.mean():>8.3f} {scores.std():>8.3f} {np.median(scores):>8.3f} {len(scores):>5}")
 
-    # ---- Paired Wilcoxon tests vs random ----
+    #Paired Wilcoxon signed-rank test: non-parametric, no normality
+    #assumption, appropriate for ordinal/bounded layout scores
     print("\nPaired Wilcoxon signed-rank test (each MCTS condition vs random):")
     print(f"{'Condition':<12} {'Statistic':>10} {'p-value':>10} {'effect':>10}")
     print("-" * 45)
@@ -150,7 +152,7 @@ def main():
         except ValueError as e:
             print(f"{cond:<12}  (test failed: {e})")
 
-    # ---- Iteration curve plot ----
+    #Iteration curve shows how layout quality scales with the MCTS budget
     fig, ax = plt.subplots(figsize=(7, 4.5))
     x_vals = [0, 100, 500, 1000]
     means, stds = [], []
@@ -172,7 +174,8 @@ def main():
     plt.savefig(fig_path, dpi=130)
     print(f"\nSaved plot: {fig_path}")
 
-    # ---- Per-seed paired comparison plot ----
+    #Per-seed bars makes the paired structure visible. Easy to see
+    #which seeds favour MCTS and which favour random
     fig2, ax2 = plt.subplots(figsize=(7, 4.5))
     seeds_x = np.arange(len(seeds_used))
     width = 0.2

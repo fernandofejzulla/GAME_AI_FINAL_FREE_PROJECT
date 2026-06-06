@@ -7,7 +7,7 @@ import pandas as pd
 
 from src.llm.client import BuildingLLM
 
-# Same 18-concept list you used in exp_llm_strategy.py — must match exactly
+#Same 18-concept list you used in exp_llm_strategy.py 
 CONCEPTS = [
     "fisherman's cottage by the sea, simple and weathered",
     "small Cycladic cottage with a flower-pot porch",
@@ -41,7 +41,7 @@ def load_rating(judge_prefix, key):
         return None
     return json.loads(path.read_text())
 
-llm = BuildingLLM()  # only reads cache, no API calls if all concepts cached
+llm = BuildingLLM()  #only reads cache, no API calls if all concepts cached
 rows = []
 missing = []
 
@@ -55,7 +55,7 @@ for concept in CONCEPTS:
             continue
 
         key = cache_key(concept, strategy, params_dict)
-        gem = load_rating("", key)        # gemini cache files have no prefix
+        gem = load_rating("", key)        #gemini cache files have no prefix
         lla = load_rating("llama_", key)
 
         if gem is None and lla is None:
@@ -89,7 +89,7 @@ if missing:
     for c, s, reason in missing:
         print(f"  [{s}] {c[:60]}: {reason}")
 
-# Stats on pairs that have BOTH judges
+#Stats on pairs that have BOTH judges
 print("\n=== Mean totals by strategy and judge (BOTH-judge subset) ===")
 both = df.dropna(subset=["gemini_total", "llama_total"])
 print(f"n with both judges = {len(both)}, concepts = {both.concept.nunique()}")

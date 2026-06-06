@@ -1,4 +1,4 @@
-"""Greek-island village: denser buildings, stone paths, a central well, and trees."""
+"""Greek-island village: denser buildings, stone paths, a central well, and trees"""
 import random
 from gdpc import Editor, Block
 from gdpc.vector_tools import ivec3
@@ -78,7 +78,6 @@ def main():
     heightmap, rect = load_heightmap(editor, build_area)
     builder = GreekIslandBuilder(editor)
 
-    # Denser 4x4 grid — up to 16 buildings, but some will skip due to terrain
     grid_n = 4
     spacing = 14
     start_x = build_area.offset.x + 8
@@ -112,7 +111,7 @@ def main():
     print(f"  {len(placed)} buildings placed.")
     editor.flushBuffer()
 
-    # Reload heightmap so paths/trees see the latest terrain
+    #Reload heightmap so paths/trees see the latest terrain
     heightmap, rect = load_heightmap(editor, build_area)
 
     chapel_info = next((p for p in placed if p["label"] == "chapel"), None)
@@ -128,7 +127,7 @@ def main():
             bz = p["z"] - 1
             draw_path(editor, heightmap, rect, (bx, bz), (chapel_x, chapel_z))
 
-        # Well near the chapel
+        #Well near the chapel
         well_x = chapel_x + 5
         well_z = chapel_info["z"] + chapel_info["d"] // 2
         lx, lz = well_x - rect.offset.x, well_z - rect.offset.y
@@ -161,13 +160,7 @@ def main():
         trees_placed += 1
     print(f"  {trees_placed} trees placed.")
 
-    # Write "NAXOS" on the southern beach
-    #print("Writing NAXOS sign...")
-   # sign_x = build_area.offset.x + 25
-    #sign_z = build_area.offset.z + build_area.size.z - 12
-   #write_text_on_ground(editor, "NAXOS", sign_x, sign_z, heightmap, rect, Block("minecraft:blue_concrete"))
-
-    # Harbor at the coastline
+    #Harbor at the coastline
     print("Building harbor...")
     place_harbor(editor, heightmap, rect, build_area)
 

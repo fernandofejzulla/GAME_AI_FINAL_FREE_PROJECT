@@ -1,8 +1,5 @@
 """
-Procedural island generator (Layer 0: terrain PCG).
-
-Generates a small Greek-island-style landmass in the build area, replacing
-any existing terrain with water and a freshly-generated island.
+Procedural island generator (Layer 0: terrain PCG)
 """
 import math
 import numpy as np
@@ -17,14 +14,13 @@ EDGE_MARGIN = 4
 NOISE_SCALE = 18
 NOISE_AMPLITUDE = 4
 BEACH_THRESHOLD = 1
-CLEAR_HEADROOM = 15   # clear this many blocks above max possible island top
+CLEAR_HEADROOM = 15   
 
 
 def generate_island(editor: Editor, build_area, seed: int = 42) -> np.ndarray:
     """
-    Generate an island in the build area, overwriting any existing terrain.
-
-    Returns the absolute heightmap (world Y of top block at each (x, z)).
+    Generate an island in the build area, overwriting any existing terrain
+    Returns the absolute heightmap (world Y of top block at each (x, z))
     """
     w = build_area.size.x
     d = build_area.size.z
@@ -64,14 +60,14 @@ def generate_island(editor: Editor, build_area, seed: int = 42) -> np.ndarray:
             wz = build_area.offset.z + z
 
             if h <= 0:
-                # Ocean column: stone seabed → water → air, replacing whatever was here
+                #Ocean column
                 for y in range(clear_bottom_y, SEA_LEVEL):
                     editor.placeBlock(ivec3(wx, y, wz), WATER)
                 editor.placeBlock(ivec3(wx, SEA_LEVEL, wz), WATER)
                 for y in range(SEA_LEVEL + 1, clear_top_y):
                     editor.placeBlock(ivec3(wx, y, wz), AIR)
             else:
-                # Island column: stack of stone → dirt/sand → grass/sand
+                #Island column
                 top_y = SEA_LEVEL + h
                 is_beach = h <= BEACH_THRESHOLD
                 for y in range(clear_bottom_y, top_y + 1):
@@ -82,7 +78,7 @@ def generate_island(editor: Editor, build_area, seed: int = 42) -> np.ndarray:
                     else:
                         block = STONE
                     editor.placeBlock(ivec3(wx, y, wz), block)
-                # Air above the island
+                #Air above the island
                 for y in range(top_y + 1, clear_top_y):
                     editor.placeBlock(ivec3(wx, y, wz), AIR)
 

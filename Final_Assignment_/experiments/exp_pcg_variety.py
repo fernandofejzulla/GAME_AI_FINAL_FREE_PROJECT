@@ -1,8 +1,5 @@
 """
-Experiment 3: PCG variety analysis.
-Samples N random BuildingParams from the PCG schema using the random factory
-functions, then measures output diversity via categorical entropy, numerical
-variance, and combinatorial uniqueness.
+Experiment 3: PCG variety analysis
 """
 import math
 import random
@@ -25,6 +22,8 @@ SEED = 42
 
 
 def shannon_entropy_bits(counts: Counter) -> float:
+    """Returns 0 for empty input. Higher entropy = more uniform distribution
+    across categories"""
     total = sum(counts.values())
     if total == 0:
         return 0.0
@@ -37,6 +36,9 @@ def main():
 
     print(f"Generating {n_total} random BuildingParams "
           f"({N_HOUSES} houses + {N_CHAPELS} chapels + {N_CHURCHES} churches)...")
+    
+    #All three factories share the same seeded RNG, so the entire
+    #60-sample corpus is deterministic and reproducible
     samples = []
     for _ in range(N_HOUSES):
         d = random_house(rng=rng).model_dump()
@@ -51,7 +53,7 @@ def main():
         d['_type'] = 'church'
         samples.append(d)
 
-    # Flatten any list-valued fields for CSV storage
+    #Flatten list-valued fields for CSV storage
     for d in samples:
         for k, v in d.items():
             if isinstance(v, list):
@@ -63,15 +65,14 @@ def main():
     print(f"Saved: results/exp_pcg_variety.csv\n")
     print(f"Schema fields detected: {list(df.columns)}\n")
 
-    # ============ Categorical fields ============
-    print("=== Categorical entropy (Shannon, bits) ===")
-    # ============ Categorical fields ============
+    
+    #Categorical fields
     print("=== Categorical entropy (Shannon, bits) ===")
     for field in df.columns:
         if field == '_type' or pd.api.types.is_numeric_dtype(df[field]):
             continue
         series = df[field].astype(str)
-        # Decorations is comma-joined; split for true element entropy
+        #Decorations is comma-joined split for true element entropy
         if field == 'decorations':
             vals = []
             for v in series:
@@ -97,7 +98,8 @@ def main():
             print(f"  {field:25s} mean={col.mean():6.2f}  std={col.std():5.2f}  "
                   f"range=[{col.min():g}, {col.max():g}]")
 
-    # ============ Combinatorial uniqueness ============
+    #Combination uniqueness: how many distinct and combinations appear, low number means
+    #the sampler revisits the same template variants
     print(f"\n=== Combinatorial uniqueness ===")
     for fieldset in [['style', 'roof_type'], ['style', 'roof_type', 'floors']]:
         keys = [c for c in fieldset if c in df.columns]
@@ -107,7 +109,6 @@ def main():
             print(f"  {keys}: {n_unique} unique combinations in {n_total} samples "
                   f"({100*n_unique/n_total:.0f}% uniqueness ratio)")
 
-    # ============ Plot ============
     make_plot(df, n_total)
 
 
@@ -129,7 +130,7 @@ def make_plot(df, n_total):
         s = str(x)
         return s.split('.')[-1] if '.' in s else s
 
-    # Derive sub-fields from the dict columns
+    #Derive sub-fields from the dict columns
     if 'palette' in df.columns:
         df = df.copy()
         df['_roof_color'] = df['palette'].apply(
@@ -142,7 +143,7 @@ def make_plot(df, n_total):
     fig, axes = plt.subplots(2, 3, figsize=(13, 8), dpi=130)
     palette_colors = ['#0d3f7a', '#1f6feb', '#3b82f6', '#60a5fa', '#93c5fd', '#a9c5f0']
 
-    # --- Top row: bars ---
+    #Top row: bars
     ax = axes[0, 0]
     counts = df['_type'].astype(str).value_counts().sort_index()
     ax.bar(range(len(counts)), counts.values, color=palette_colors[0], edgecolor='white')
@@ -165,7 +166,7 @@ def make_plot(df, n_total):
     ax.set_xticklabels([clean_label(x) for x in counts.index], rotation=20, ha='right', fontsize=9)
     ax.set_title('Roof type', fontweight='bold')
 
-    # --- Bottom row: floors, footprint scatter, roof color ---
+    #Bottom row: floors, footprint scatter, roof color
     ax = axes[1, 0]
     counts = df['floors'].value_counts().sort_index()
     ax.bar(counts.index, counts.values, color=palette_colors[3], edgecolor='white', width=0.5)

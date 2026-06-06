@@ -1,4 +1,4 @@
-"""Generate an island in the current build area and teleport the player above it."""
+"""Generate an island in the current build area and teleport the player above it"""
 from gdpc import Editor
 
 from src.pcg.island import generate_island

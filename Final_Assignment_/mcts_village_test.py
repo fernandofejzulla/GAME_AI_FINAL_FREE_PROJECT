@@ -1,4 +1,4 @@
-"""Plan a dense MCTS village with paved streets and a harbor."""
+"""Plan a dense MCTS village with paved streets and a harbor"""
 import random
 from gdpc import Editor, Block
 from gdpc.vector_tools import ivec3
@@ -14,11 +14,11 @@ from src.mcts.planner import (
 
 
 def build_placements(editor, builder, placements, rng):
-    """Realize an MCTS-planned layout, forcing the chapel into the most central position."""
+    """Realize an MCTS-planned layout, forcing the chapel into the most central position"""
     if not placements:
         return []
 
-    # Compute centroid, then find the placement closest to it
+    #Compute centroid, then find the placement closest to it
     cx = sum(p[0] for p in placements) / len(placements)
     cz = sum(p[1] for p in placements) / len(placements)
     central_idx = min(
@@ -26,7 +26,7 @@ def build_placements(editor, builder, placements, rng):
         key=lambda i: (placements[i][0] - cx) ** 2 + (placements[i][1] - cz) ** 2,
     )
 
-    # Reassign building types: central = chapel, then church, then houses
+    #Reassign building types: central = chapel, then church, then houses
     reordered = []
     for i, p in enumerate(placements):
         x, z, _, gy = p
@@ -82,14 +82,14 @@ def main():
 
     heightmap, rect = load_heightmap(editor, build_area)
 
-    # Perimeter paving + chapel plaza
+    #Perimeter paving and chapel plaza
     print("Paving perimeters and chapel plaza...")
     pave_village_area(editor, heightmap, rect, placed, padding=2)
     editor.flushBuffer()
 
     heightmap, rect = load_heightmap(editor, build_area)
 
-    # Paths to chapel — drawn AFTER paving so they cut through the green
+    #Paths to chapel 
     chapel_info = next((p for p in placed if p["label"] == CHAPEL), None)
     if chapel_info:
         cx_path = chapel_info["x"] + chapel_info["w"] // 2

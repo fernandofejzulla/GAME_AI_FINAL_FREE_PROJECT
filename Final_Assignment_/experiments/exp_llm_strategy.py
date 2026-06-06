@@ -1,4 +1,4 @@
-"""Compare zero-shot vs few-shot prompting for building parameter generation."""
+"""Compare zero-shot vs few-shot prompting for building parameter generation"""
 import hashlib
 import json
 import os
@@ -19,36 +19,28 @@ from src.llm.client import BuildingLLM
 
 load_dotenv()
 
-# CONCEPTS = [
-#     "fisherman's cottage by the sea, simple and weathered",
-#     "wealthy merchant's two-story house with balcony and ornate trim",
-#     "small whitewashed chapel with a prominent blue dome",
-#     "rustic farmer's house with stone accents and rooftop terrace",
-#     "village tavern, welcoming with broad terrace and decorative trim",
-# ]
-
 CONCEPTS = [
-    # Residential, simple
+    #Residential, simple
     "fisherman's cottage by the sea, simple and weathered",
     "small Cycladic cottage with a flower-pot porch",
     "tiny one-room shepherd's hut on a hillside",
     "modest village house with a stone path and chimney",
-    # Residential, larger
+    #Residential, larger
     "wealthy merchant's two-story house with balcony and ornate trim",
     "two-story Mykonos seaside villa with pergola and rooftop terrace",
     "rustic farmer's house with stone accents and rooftop terrace",
     "spacious family home, white walls, blue shutters, gabled roof",
-    # Religious
+    #Religious
     "small whitewashed chapel with a prominent blue dome",
     "tiny clifftop chapel with a single cross",
     "blue-domed church with bell tower",
     "village chapel with stone foundation and white dome",
-    # Commercial / civic
+    #Commercial 
     "village tavern, welcoming with broad terrace and decorative trim",
     "small bakery with chimney and shuttered windows",
     "harbour-side fish market, single floor, simple and weathered",
     "blacksmith's workshop with stone walls and rooftop chimney",
-    # Special
+    #Special
     "tiny white watchtower overlooking the sea",
     "windmill-style building, tall and narrow, white with blue trim",
 ]
@@ -73,6 +65,8 @@ JUDGE_CACHE = Path("data/llm_cache/judge")
 JUDGE_CACHE.mkdir(parents=True, exist_ok=True)
 
 
+"""Caching every response on disk means re-runs are free and quota-exhausted 
+runs do not lose progress on subsequent restart"""
 def _cache_path(concept, strategy, params_dict):
     blob = f"{concept}|{strategy}|{json.dumps(params_dict, sort_keys=True)}"
     h = hashlib.md5(blob.encode()).hexdigest()[:12]
@@ -87,7 +81,7 @@ def judge_one(client, concept, params_dict, strategy):
 
     prompt = JUDGE_PROMPT.format(concept=concept, params=json.dumps(params_dict, indent=2))
 
-    # Try primary model, fall back to flash-lite if rate-limited
+    #Try primary model, fall back to flash-lite if rate-limited
     models_to_try = ["gemini-2.5-flash", "gemini-2.5-flash-lite"]
     last_err = None
 
@@ -118,7 +112,7 @@ def judge_one(client, concept, params_dict, strategy):
     raise RuntimeError(f"Judge failed on all models. Last error: {last_err}")
 
 
-
+"""Independent judge from a different model family than the generator (Llama 3.3)"""
 def judge_one_llama(concept, params_dict, strategy):
     cache_file = JUDGE_CACHE / f"llama_{_cache_path(concept, strategy, params_dict).stem}.json"
     if cache_file.exists():
@@ -138,6 +132,10 @@ def judge_one_llama(concept, params_dict, strategy):
             )
             text = resp.choices[0].message.content.strip()
             result = json.loads(text)
+            
+            """Llama occasionally returns scores as strings ("8") instead of
+            ints, force to keep downstream pandas dtypes consistent"""
+            
             for k in ["concept_fit", "cultural_authenticity", "architectural_coherence"]:
                 result[k] = int(result[k])
             result["_judge_model"] = "llama-3.3-70b-versatile"
@@ -156,6 +154,8 @@ def main():
     client = genai.Client(api_key=os.environ["GEMINI_API_KEY"])
 
     rows = []
+    #Each iteration generate params under one strategy, then collect
+    #judgements from both raters
     for concept in CONCEPTS:
             for strategy in ["zero_shot", "few_shot"]:
                 print(f"[{strategy}] generating: {concept[:55]}...")
@@ -181,7 +181,11 @@ def main():
                     "llama_total": lla["concept_fit"] + lla["cultural_authenticity"] + lla["architectural_coherence"],
                     "llama_comment": lla["comment"],
                 })
-                time.sleep(15)   # gentle rate limit (was 1.5) 
+                
+                """Gemini free tier allows around 5 requests/minute. Two judge calls
+                per iteration means we need about 15s between iterations to stay
+                under the rolling per-minute quota"""
+                time.sleep(15)   
 
     Path("results").mkdir(exist_ok=True)
     df = pd.DataFrame(rows)
@@ -192,6 +196,8 @@ def main():
     print("\n=== Mean totals by strategy and judge ===")
     print(df.groupby("strategy")[["gemini_total", "llama_total"]].mean().round(2))
 
+    #Paired Wilcoxon signed-rank: tests whether few-shot consistently
+    #beats zero-shot across concepts
     print("\n=== Paired Wilcoxon (few_shot vs zero_shot) per judge ===")
     for judge_col in ["gemini_total", "llama_total"]:
         zs = df[df.strategy == "zero_shot"].sort_values("concept")[judge_col].values
@@ -203,6 +209,8 @@ def main():
         except ValueError as e:
             print(f"  {judge_col}: test failed ({e})")
 
+    #Spearman rank correlation measures whether the judges agree on which buildings are good,
+    #independent of whether they agree on the prompting strategy
     print("\n=== Inter-rater agreement (Spearman) ===")
     rho, p = spearmanr(df.gemini_total, df.llama_total)
     print(f"  rho={rho:.3f}  p={p:.4f}  (across {len(df)} ratings)")

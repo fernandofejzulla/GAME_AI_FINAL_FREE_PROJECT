@@ -1,0 +1,26 @@
+{
+  "concept": "tiny clifftop chapel with a single cross",
+  "strategy": "zero_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"cycladic\",\n  \"floors\": 1,\n  \"roof_type\": \"domed\",\n  \"palette\": {\n    \"wall\": \"minecraft:white_concrete\",\n    \"roof\": \"minecraft:blue_concrete\",\n    \"accent\": \"minecraft:calcite\",\n    \"trim\": \"minecraft:blue_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 5,\n    \"depth\": 5\n  },\n  \"decorations\": [\n    \"cross\",\n    \"bell_tower\",\n    \"flower_pots\"\n  ]\n}",
+  "params": {
+    "style": "cycladic",
+    "floors": 1,
+    "roof_type": "domed",
+    "palette": {
+      "wall": "minecraft:white_concrete",
+      "roof": "minecraft:blue_concrete",
+      "accent": "minecraft:calcite",
+      "trim": "minecraft:blue_terracotta"
+    },
+    "footprint": {
+      "width": 5,
+      "depth": 5
+    },
+    "decorations": [
+      "cross",
+      "bell_tower",
+      "flower_pots"
+    ]
+  }
+}

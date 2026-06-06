@@ -1,4 +1,4 @@
-"""Shared building configurations for village generation."""
+"""Shared building configurations for village generation"""
 import random
 from src.schema import (
     BuildingParams, Style, RoofType, Decoration, Palette, Footprint,

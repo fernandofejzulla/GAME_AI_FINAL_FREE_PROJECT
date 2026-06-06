@@ -1,0 +1,25 @@
+{
+  "concept": "blacksmith's workshop with stone walls and rooftop chimney",
+  "strategy": "zero_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"traditional\",\n  \"floors\": 1,\n  \"roof_type\": \"gabled\",\n  \"palette\": {\n    \"wall\": \"minecraft:diorite\",\n    \"roof\": \"minecraft:terracotta\",\n    \"accent\": \"minecraft:stone_bricks\",\n    \"trim\": \"minecraft:white_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 8,\n    \"depth\": 10\n  },\n  \"decorations\": [\n    \"chimney\",\n    \"stone_path\"\n  ]\n}",
+  "params": {
+    "style": "traditional",
+    "floors": 1,
+    "roof_type": "gabled",
+    "palette": {
+      "wall": "minecraft:diorite",
+      "roof": "minecraft:terracotta",
+      "accent": "minecraft:stone_bricks",
+      "trim": "minecraft:white_terracotta"
+    },
+    "footprint": {
+      "width": 8,
+      "depth": 10
+    },
+    "decorations": [
+      "chimney",
+      "stone_path"
+    ]
+  }
+}

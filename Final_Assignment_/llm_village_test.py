@@ -1,5 +1,5 @@
-"""End-to-end demo: LLM generates building parameters, generator builds them.
-Mirrors mcts_village_test.py: 12 buildings, central chapel, paved paths, harbor.
+"""End-to-end demo: LLM generates building parameters, generator builds them
+Mirrors mcts_village_test.py: 12 buildings, central chapel, paved paths, harbor
 """
 import random
 
@@ -13,36 +13,35 @@ from src.pcg.details import draw_path, place_well, pave_village_area, place_harb
 from src.mcts.planner import get_candidate_positions, is_too_close
 
 
-# (concept, label) — label is used to identify the chapel for centering.
-# Concepts deliberately steer the LLM toward Cycladic features (flat roofs,
-# white walls, blue trim) and away from gabled/non-Greek styles.
-# All concepts below are already cached from Experiment 2 — no API calls needed.
-# Mix of residential, commercial, religious, and special buildings for maximum variety.
+#(concept, label) where label is used to identify the chapel for centering
+#Concepts deliberately steer the LLM toward Cycladic features and away from gabled/non-Greek styles
+#All concepts below are already cached from Experiment 2 — no API calls needed
+#Mix of residential, commercial, religious, and special buildings for maximum variety
 CONCEPTS = [
-    # Religious — chapel goes centrally
+    #Religious
     ("small whitewashed chapel with a prominent blue dome", "chapel"),
     ("blue-domed church with bell tower", "house"),
     ("tiny clifftop chapel with a single cross", "house"),
     ("village chapel with stone foundation and white dome", "house"),
 
-    # Residential — simple cottages
+    #Residential 
     ("fisherman's cottage by the sea, simple and weathered", "house"),
     ("small Cycladic cottage with a flower-pot porch", "house"),
     ("tiny one-room shepherd's hut on a hillside", "house"),
     ("modest village house with a stone path and chimney", "house"),
 
-    # Residential — larger houses
+    #Residential (larger houses)
     ("wealthy merchant's two-story house with balcony and ornate trim", "house"),
     ("two-story Mykonos seaside villa with pergola and rooftop terrace", "house"),
     ("rustic farmer's house with stone accents and rooftop terrace", "house"),
 
-    # Commercial / civic — different functions = different shapes
+    #Commercial 
     ("village tavern, welcoming with broad terrace and decorative trim", "house"),
     ("small bakery with chimney and shuttered windows", "house"),
     ("harbour-side fish market, single floor, simple and weathered", "house"),
     ("blacksmith's workshop with stone walls and rooftop chimney", "house"),
 
-    # Special / distinctive landmarks
+    #Special 
     ("tiny white watchtower overlooking the sea", "house"),
     ("windmill-style building, tall and narrow, white with blue trim", "house"),
 ]
@@ -83,7 +82,7 @@ def main():
         print("No valid positions found!")
         return
 
-    # Find the most geometrically central position and assign the chapel to it
+    #Find the most geometrically central position and assign the chapel to it
     cx = sum(c[0] for c in chosen) / len(chosen)
     cz = sum(c[1] for c in chosen) / len(chosen)
     central_idx = min(

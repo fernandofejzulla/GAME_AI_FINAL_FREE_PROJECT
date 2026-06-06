@@ -1,0 +1,26 @@
+{
+  "concept": "harbour-side fish market, single floor, simple and weathered",
+  "strategy": "zero_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"seaside\",\n  \"floors\": 1,\n  \"roof_type\": \"flat\",\n  \"palette\": {\n    \"wall\": \"minecraft:diorite\",\n    \"roof\": \"minecraft:white_concrete\",\n    \"accent\": \"minecraft:spruce_planks\",\n    \"trim\": \"minecraft:white_concrete\"\n  },\n  \"footprint\": {\n    \"width\": 8,\n    \"depth\": 10\n  },\n  \"decorations\": [\n    \"chimney\",\n    \"stone_path\",\n    \"pergola\"\n  ]\n}",
+  "params": {
+    "style": "seaside",
+    "floors": 1,
+    "roof_type": "flat",
+    "palette": {
+      "wall": "minecraft:diorite",
+      "roof": "minecraft:white_concrete",
+      "accent": "minecraft:spruce_planks",
+      "trim": "minecraft:white_concrete"
+    },
+    "footprint": {
+      "width": 8,
+      "depth": 10
+    },
+    "decorations": [
+      "chimney",
+      "stone_path",
+      "pergola"
+    ]
+  }
+}

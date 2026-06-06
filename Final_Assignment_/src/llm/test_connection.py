@@ -1,4 +1,4 @@
-"""Verify Gemini API access with a trivial call."""
+"""Verify Gemini API access with a test call"""
 import os
 from dotenv import load_dotenv
 from google import genai

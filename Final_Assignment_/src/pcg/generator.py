@@ -1,11 +1,5 @@
 """
-Greek-island (Cycladic) style building generator (Layer 1: PCG).
-
-Builds Santorini/Mykonos-style buildings featuring:
-- Stacked, inset upper floors with rooftop terraces
-- Blue terracotta accents on doors and window frames
-- Exterior staircase to the roof terrace
-- Iconic flat parapets, blue domes, or stepped terraced roofs
+Greek-island (Cycladic) style building generator (Layer 1: PCG)
 """
 import math
 from gdpc import Editor, Block
@@ -14,9 +8,9 @@ from gdpc.vector_tools import ivec3
 from src.schema import BuildingParams, RoofType, Decoration
 
 
-FLOOR_HEIGHT = 4  # 3 walls + 1 ceiling/floor between
+FLOOR_HEIGHT = 4  #3 walls + 1 ceiling/floor between
 AIR = Block("minecraft:air")
-#BLUE_TRIM = Block("minecraft:blue_terracotta")
+
 
 
 class GreekIslandBuilder:
@@ -30,7 +24,7 @@ class GreekIslandBuilder:
         trim = Block(params.palette.trim)
         w, d = params.footprint.width, params.footprint.depth
 
-        # Plan each floor's footprint: upper floors step in for that Cycladic look
+        #Plan each floor's footprint
         floor_specs = []  # (dx, dz, fw, fd)
         for f in range(params.floors):
             if f == 0:
@@ -39,27 +33,27 @@ class GreekIslandBuilder:
                 pdx, _, pw, pd = floor_specs[-1]
                 nw = max(5, pw - 2)
                 nd = max(5, pd - 1)
-                floor_specs.append((pdx + 1, 0, nw, nd))  # inset 1 on the left side
+                floor_specs.append((pdx + 1, 0, nw, nd))  
 
-        # Foundation under full ground-floor footprint
+        #Foundation under full ground-floor footprint
         for x in range(w):
             for z in range(d):
                 for depth in range(1, fill_below +1):
                     self.editor.placeBlock(origin + ivec3(x, -depth, z), accent)
 
-        # Build each floor
+        #Build each floor
         for f, (dx, dz, fw, fd) in enumerate(floor_specs):
             fo = origin + ivec3(dx, f * FLOOR_HEIGHT, dz)
             self._walls(fo, fw, fd, wall)
             if f == 0:
                 self._door_with_trim(fo, fw, trim)
             self._windows_with_trim(fo, fw, fd, trim)
-            if f > 0:  # interior floor for upper floors
+            if f > 0:  #interior floor for upper floors
                 for x in range(fw):
                     for z in range(fd):
                         self.editor.placeBlock(fo + ivec3(x, -1, z), wall)
 
-        # Rooftop terraces: the exposed top of each lower floor
+        #Rooftop terraces
         for f in range(params.floors - 1):
             cdx, cdz, cw, cd = floor_specs[f]
             ndx, ndz, nw, nd = floor_specs[f + 1]
@@ -71,25 +65,25 @@ class GreekIslandBuilder:
                     under_upper = (rx <= x < rx + nw and rz <= z < rz + nd)
                     if not under_upper:
                         self.editor.placeBlock(terrace_o + ivec3(x, 0, z), accent)
-                        # Parapet on outer edge of lower floor
+                        #Parapet on outer edge of lower floor
                         on_edge = (x == 0 or x == cw - 1 or z == 0 or z == cd - 1)
                         if on_edge:
                             self.editor.placeBlock(terrace_o + ivec3(x, 1, z), wall)
 
-        # Top floor's actual roof
+        #Top floor's actual roof
         top_dx, top_dz, top_w, top_d = floor_specs[-1]
         roof_y = params.floors * FLOOR_HEIGHT - 1
         ro = origin + ivec3(top_dx, roof_y, top_dz)
         self._build_roof(params.roof_type, ro, top_w, top_d, wall, roof)
 
-        # External staircase to the first rooftop terrace (if 2+ floors)
+        #External staircase to the first rooftop terrace 
         if params.floors >= 2:
             self._exterior_stairs(origin, w, d, accent)
 
         self._decorations(params, origin, w, d, accent)
 
-    # ---- walls and openings ----
-
+    #walls and openings
+    
     def _walls(self, o, w, d, wall):
         for y in range(3):
             for x in range(w):
@@ -100,25 +94,24 @@ class GreekIslandBuilder:
                 self.editor.placeBlock(o + ivec3(w - 1, y, z), wall)
 
     def _door_with_trim(self, o, w, trim):
-        """Centered front-wall door with prominent blue terracotta frame."""
+        """Centered front-wall door with prominent blue terracotta frame"""
         dx = w // 2
-        # Blue frame on both sides, 3 high
+        #Blue frame on both sides
         for y in range(3):
             self.editor.placeBlock(o + ivec3(dx - 1, y, 0), trim)
             self.editor.placeBlock(o + ivec3(dx + 1, y, 0), trim)
-        # Blue lintel above the doorway
+        #Blue lintel above the doorway
         self.editor.placeBlock(o + ivec3(dx, 2, 0), trim)
-        # Doorway itself
+        #Doorway itself
         self.editor.placeBlock(o + ivec3(dx, 0, 0), AIR)
         self.editor.placeBlock(o + ivec3(dx, 1, 0), AIR)
 
     def _windows_with_trim(self, o, w, d, trim):
-        """Windows in all walls, with blue frames above and below."""
-        # Front and back walls
+        """Windows in all walls, with blue frames above and below"""
         for x in range(2, w - 2, 3):
             self._framed_window(o + ivec3(x, 1, 0), trim)
             self._framed_window(o + ivec3(x, 1, d - 1), trim)
-        # Left and right walls
+        
         for z in range(2, d - 2, 3):
             self._framed_window(o + ivec3(0, 1, z), trim)
             self._framed_window(o + ivec3(w - 1, 1, z), trim)
@@ -129,8 +122,8 @@ class GreekIslandBuilder:
         self.editor.placeBlock(pos, AIR)
 
     def _exterior_stairs(self, origin, w, d, accent):
-        """Stairs running up the back of the building to the rooftop terrace."""
-        stair_z = d  # one block out behind the building
+        """Stairs running up the back of the building to the rooftop terrace"""
+        stair_z = d  #one block out behind the building
         for step in range(FLOOR_HEIGHT):
             x = w - 1 - step
             if x < 0:
@@ -139,8 +132,7 @@ class GreekIslandBuilder:
             for fill_y in range(step):
                 self.editor.placeBlock(origin + ivec3(x, fill_y, stair_z), accent)
 
-    # ---- roofs ----
-
+    #roofs
     def _build_roof(self, rtype, o, w, d, wall, roof):
         if rtype == RoofType.FLAT:
             self._roof_flat(o, w, d, wall, roof)
@@ -191,8 +183,7 @@ class GreekIslandBuilder:
             inset += 1
             y += 1
 
-    # ---- decorations ----
-
+    #decorations
     def _decorations(self, params, o, w, d, accent):
         decos = params.decorations
         if Decoration.STONE_PATH in decos:

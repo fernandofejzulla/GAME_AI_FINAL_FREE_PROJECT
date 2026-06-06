@@ -1,9 +1,5 @@
 """
-MCTS-based village layout planner (Layer 3).
-
-Searches the space of building placements on the island to maximize a scoring
-function over terrain flatness, inter-building spacing, type variety, and
-cluster connectivity. Uses standard UCT for tree selection.
+MCTS-based village layout planner (Layer 3)
 """
 import math
 import random
@@ -13,22 +9,21 @@ from typing import List, Tuple
 from src.pcg.placement import evaluate_footprint
 
 
-# Building types — order matters for selection during placement
+#Building types 
 CHAPEL = "chapel"
 CHURCH = "church"
 HOUSE = "house"
 
-# A placement is (x, z, building_type, ground_y)
+#A placement is (x, z, building_type, ground_y)
 Placement = Tuple[int, int, str, int]
 
 
 def get_candidate_positions(heightmap, rect, build_area, step: int = 5, footprint: int = 9,
                              min_ground_y: int = None):
-    """Find buildable positions. If min_ground_y is None, auto-detect from terrain."""
+    """Find buildable positions, if min_ground_y is None auto-detect from terrain"""
     import numpy as np
 
-    # Auto-detect: use the 30th percentile of heights as the minimum buildable height.
-    # This works for both the synthetic island AND natural Minecraft terrain.
+    #Auto-detect
     if min_ground_y is None:
         valid = heightmap[heightmap > 0]
         min_ground_y = int(np.percentile(valid, 30)) if len(valid) > 0 else 66
@@ -67,7 +62,7 @@ def get_candidate_positions(heightmap, rect, build_area, step: int = 5, footprin
     return candidates
 
 def next_building_type(placements: List[Placement]) -> str:
-    """Determine which building type comes next."""
+    """Determine which building type comes next"""
     types = [p[2] for p in placements]
     if CHAPEL not in types:
         return CHAPEL
@@ -84,7 +79,7 @@ def is_too_close(x: int, z: int, placements: List[Placement], min_dist: int = 9)
 
 
 def score_layout(placements, weights: dict = None) -> float:
-    """Score a village layout. Higher is better; ~0 to ~1."""
+    """Score a village layout, higher is better"""
     if weights is None:
         weights = {
             "flatness": 0.10,
@@ -97,7 +92,7 @@ def score_layout(placements, weights: dict = None) -> float:
     if not placements:
         return 0.0
 
-    # Flatness
+    #Flatness
     ys = [p[3] for p in placements]
     if len(ys) > 1:
         mean_y = sum(ys) / len(ys)
@@ -106,7 +101,7 @@ def score_layout(placements, weights: dict = None) -> float:
     else:
         flatness = 1.0
 
-    # Spacing + track max pair dist for compactness
+    #Spacing + track max pair dist for compactness
     n_pairs = 0
     spacing_total = 0.0
     max_pair_dist = 0.0
@@ -127,7 +122,7 @@ def score_layout(placements, weights: dict = None) -> float:
             n_pairs += 1
     spacing = max(0.0, spacing_total / max(1, n_pairs))
 
-    # Compactness
+    #Compactness
     if max_pair_dist <= 40:
         compactness = 1.0
     elif max_pair_dist <= 65:
@@ -135,7 +130,7 @@ def score_layout(placements, weights: dict = None) -> float:
     else:
         compactness = 0.0
 
-    # Centrality: chapel should sit near the village centroid
+    #Centrality: chapel should sit near the village centroid
     chapel = next((p for p in placements if p[2] == 'chapel'), None)
     if chapel is not None and len(placements) > 1:
         cx = sum(p[0] for p in placements) / len(placements)
@@ -150,11 +145,11 @@ def score_layout(placements, weights: dict = None) -> float:
     else:
         centrality = 0.5
 
-    # Variety
+    #Variety
     type_count = len(set(p[2] for p in placements))
     variety = min(1.0, type_count / 3.0)
 
-    # Connectivity
+    #Connectivity
     if len(placements) <= 1:
         connectivity = 1.0
     else:
@@ -182,7 +177,7 @@ def score_layout(placements, weights: dict = None) -> float:
     )
 
 class MCTSNode:
-    """A single node in the MCTS search tree."""
+    """A single node in the MCTS search tree"""
     def __init__(self, placements, candidates, target_size, parent=None, action=None):
         self.placements = placements
         self.candidates = candidates
@@ -225,7 +220,7 @@ class MCTSNode:
         )
 
     def rollout(self, rng: random.Random) -> float:
-        """Random simulation from this node to a complete layout."""
+        """Random simulation from this node to a complete layout"""
         placements = list(self.placements)
         while len(placements) < self.target_size:
             avail = [
@@ -248,7 +243,7 @@ class MCTSNode:
 
 
 def mcts_search(candidates, target_size: int = 12, iterations: int = 500, seed: int = 42) -> List[Placement]:
-    """Run MCTS and return the best-found layout."""
+    """Run MCTS and return the best-found layout"""
     rng = random.Random(seed)
     root = MCTSNode([], candidates, target_size)
 
@@ -261,7 +256,7 @@ def mcts_search(candidates, target_size: int = 12, iterations: int = 500, seed: 
         score = node.rollout(rng)
         node.backpropagate(score)
 
-    # Extract best path: greedy down the tree by visit count, then rollout if needed
+    #Extract best path: greedy down the tree by visit count, then rollout if needed
     placements = []
     node = root
     while node.children:
@@ -279,7 +274,7 @@ def mcts_search(candidates, target_size: int = 12, iterations: int = 500, seed: 
 
 
 def random_layout(candidates, target_size: int = 12, seed: int = 42) -> List[Placement]:
-    """Generate a random valid layout — the baseline for the experiment."""
+    """Generate a random valid layout (baseline for the experiment)"""
     rng = random.Random(seed)
     placements = []
     while len(placements) < target_size:

@@ -1,39 +1,37 @@
 """
-Building parameter schema for a Greek-island settlement generator.
+Building parameter schema for a Greek-island settlement generator
 """
 from enum import Enum
 from typing import List
 from pydantic import BaseModel, Field, field_validator
 
 
-# ---- Style variants within the Greek-island aesthetic ----
-
+#Style variants within the Greek-island aesthetic
 class Style(str, Enum):
-    CYCLADIC = "cycladic"        # Santorini-style: pure white walls, flat or domed roof
-    TRADITIONAL = "traditional"  # Stone-and-whitewash village house, pitched roof
-    SEASIDE = "seaside"          # Smaller, weathered, often with a pergola or porch
-    HILLSIDE = "hillside"        # Terraced into terrain, stone-heavy base
+    CYCLADIC = "cycladic"        #Santorini-style: pure white walls, flat or domed roof
+    TRADITIONAL = "traditional"  #Stone-and-whitewash village house, pitched roof
+    SEASIDE = "seaside"          #Smaller, weathered, often with a pergola or porch
+    HILLSIDE = "hillside"        #Terraced into terrain, stone-heavy base
 
 
 class RoofType(str, Enum):
-    FLAT = "flat"           # Iconic Cycladic flat roof
-    DOMED = "domed"         # Blue church / chapel dome
-    GABLED = "gabled"       # Pitched, traditional inland houses
-    TERRACED = "terraced"   # Step-down hillside
+    FLAT = "flat"   #Iconic Cycladic flat roof
+    DOMED = "domed"     #Blue church / chapel dome
+    GABLED = "gabled" #Pitched, traditional inland houses
+    TERRACED = "terraced" #Step-down hillside
 
 
 class Decoration(str, Enum):
     CHIMNEY = "chimney"
-    PERGOLA = "pergola"           # Wooden shaded patio
-    STONE_PATH = "stone_path"     # Path/border around the building
+    PERGOLA = "pergola"    #Wooden shaded patio
+    STONE_PATH = "stone_path"  #Path/border around the building
     FLOWER_POTS = "flower_pots"
-    BELL_TOWER = "bell_tower"     # For chapels
-    SHUTTERS = "shutters"       # Blue-painted window shutters
+    BELL_TOWER = "bell_tower" #For chapels
+    SHUTTERS = "shutters"  #Blue-painted window shutters
     CROSS = "cross"
 
 
-# ---- Constrained palettes (the LLM must choose from these) ----
-
+#Constrained palettes (the LLM must choose from these)
 GREEK_WALL_BLOCKS = [
     "minecraft:white_concrete",
     "minecraft:smooth_quartz",
@@ -44,12 +42,12 @@ GREEK_WALL_BLOCKS = [
 ]
 
 GREEK_ROOF_BLOCKS = [
-    "minecraft:blue_concrete",        # Santorini chapel dome
+    "minecraft:blue_concrete",        #Santorini chapel dome
     "minecraft:light_blue_concrete",
     "minecraft:blue_terracotta",
     "minecraft:lapis_block",
-    "minecraft:terracotta",           # Warmer, for traditional/inland
-    "minecraft:smooth_quartz",        # Flat white roof
+    "minecraft:terracotta",           #Warmer, for traditional/inland
+    "minecraft:smooth_quartz",        #Flat white roof
     "minecraft:white_concrete"
 ]
 
@@ -57,7 +55,7 @@ GREEK_ACCENT_BLOCKS = [
     "minecraft:cobblestone",
     "minecraft:stone_bricks",
     "minecraft:mossy_cobblestone",
-    "minecraft:spruce_planks",         # Doors, shutters
+    "minecraft:spruce_planks",         #Doors, shutters
     "minecraft:dark_oak_planks",
     "minecraft:polished_diorite",
     "minecraft:calcite",
@@ -117,9 +115,9 @@ class Footprint(BaseModel):
 
 
 class BuildingParams(BaseModel):
-    """Complete parameter set defining one building in the Greek-island style."""
+    """Complete parameter set defining one building in the Greek-island style"""
     style: Style
-    floors: int = Field(..., ge=1, le=2)   # Greek island buildings are typically 1-2 floors
+    floors: int = Field(..., ge=1, le=2)   #Greek island buildings are typically 1-2 floors
     roof_type: RoofType
     palette: Palette
     footprint: Footprint
@@ -128,10 +126,10 @@ class BuildingParams(BaseModel):
     @field_validator("decorations")
     @classmethod
     def unique_decorations(cls, v):
-        return list(dict.fromkeys(v))  # dedupe, preserve order
+        return list(dict.fromkeys(v))  #dedupe, preserve order
 
 
-# Hardcoded example: a classic Santorini cottage
+#Hardcoded example: a classic Santorini cottage
 EXAMPLE_PARAMS = BuildingParams(
     style=Style.CYCLADIC,
     floors=2,

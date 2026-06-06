@@ -1,4 +1,4 @@
-"""LLM client: generates validated BuildingParams from concept strings."""
+"""LLM client generates validated BuildingParams from concept strings."""
 import os
 import json
 import hashlib
@@ -21,7 +21,7 @@ PromptStrategy = Literal["zero_shot", "few_shot"]
 
 
 class BuildingLLM:
-    """Turns a building concept string into a validated BuildingParams via Gemini."""
+    """Turns a building concept string into a validated BuildingParams via Gemini"""
 
     def __init__(self, model: str = "gemini-2.5-flash"):
         api_key = os.getenv("GEMINI_API_KEY")
