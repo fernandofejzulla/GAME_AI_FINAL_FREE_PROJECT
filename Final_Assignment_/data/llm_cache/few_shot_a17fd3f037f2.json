@@ -1,0 +1,26 @@
+{
+  "concept": "small whitewashed chapel with a prominent blue dome",
+  "strategy": "few_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"cycladic\",\n  \"floors\": 1,\n  \"roof_type\": \"domed\",\n  \"palette\": {\n    \"wall\": \"minecraft:white_concrete\",\n    \"roof\": \"minecraft:blue_concrete\",\n    \"accent\": \"minecraft:cobblestone\",\n    \"trim\": \"minecraft:blue_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 7,\n    \"depth\": 7\n  },\n  \"decorations\": [\n    \"bell_tower\",\n    \"cross\",\n    \"stone_path\"\n  ]\n}",
+  "params": {
+    "style": "cycladic",
+    "floors": 1,
+    "roof_type": "domed",
+    "palette": {
+      "wall": "minecraft:white_concrete",
+      "roof": "minecraft:blue_concrete",
+      "accent": "minecraft:cobblestone",
+      "trim": "minecraft:blue_terracotta"
+    },
+    "footprint": {
+      "width": 7,
+      "depth": 7
+    },
+    "decorations": [
+      "bell_tower",
+      "cross",
+      "stone_path"
+    ]
+  }
+}

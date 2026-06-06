@@ -1,0 +1,24 @@
+{
+  "concept": "tiny white watchtower",
+  "strategy": "few_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"cycladic\",\n  \"floors\": 2,\n  \"roof_type\": \"flat\",\n  \"palette\": {\n    \"wall\": \"minecraft:white_concrete\",\n    \"roof\": \"minecraft:smooth_quartz\",\n    \"accent\": \"minecraft:polished_diorite\",\n    \"trim\": \"minecraft:white_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 6,\n    \"depth\": 6\n  },\n  \"decorations\": [\n    \"stone_path\"\n  ]\n}",
+  "params": {
+    "style": "cycladic",
+    "floors": 2,
+    "roof_type": "flat",
+    "palette": {
+      "wall": "minecraft:white_concrete",
+      "roof": "minecraft:smooth_quartz",
+      "accent": "minecraft:polished_diorite",
+      "trim": "minecraft:white_terracotta"
+    },
+    "footprint": {
+      "width": 6,
+      "depth": 6
+    },
+    "decorations": [
+      "stone_path"
+    ]
+  }
+}

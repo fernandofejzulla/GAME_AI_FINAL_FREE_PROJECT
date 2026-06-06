@@ -1,0 +1,25 @@
+{
+  "concept": "small fisherman's house with flat roof and stone foundation",
+  "strategy": "few_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"seaside\",\n  \"floors\": 1,\n  \"roof_type\": \"flat\",\n  \"palette\": {\n    \"wall\": \"minecraft:white_concrete\",\n    \"roof\": \"minecraft:smooth_quartz\",\n    \"accent\": \"minecraft:cobblestone\",\n    \"trim\": \"minecraft:light_blue_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 7,\n    \"depth\": 8\n  },\n  \"decorations\": [\n    \"stone_path\",\n    \"flower_pots\"\n  ]\n}",
+  "params": {
+    "style": "seaside",
+    "floors": 1,
+    "roof_type": "flat",
+    "palette": {
+      "wall": "minecraft:white_concrete",
+      "roof": "minecraft:smooth_quartz",
+      "accent": "minecraft:cobblestone",
+      "trim": "minecraft:light_blue_terracotta"
+    },
+    "footprint": {
+      "width": 7,
+      "depth": 8
+    },
+    "decorations": [
+      "stone_path",
+      "flower_pots"
+    ]
+  }
+}

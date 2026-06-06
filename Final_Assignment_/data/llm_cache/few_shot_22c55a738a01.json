@@ -1,0 +1,27 @@
+{
+  "concept": "wealthy merchant's two-story house with balcony and ornate trim",
+  "strategy": "few_shot",
+  "model": "gemini-2.5-flash",
+  "raw_response": "{\n  \"style\": \"traditional\",\n  \"floors\": 2,\n  \"roof_type\": \"terraced\",\n  \"palette\": {\n    \"wall\": \"minecraft:smooth_quartz\",\n    \"roof\": \"minecraft:smooth_quartz\",\n    \"accent\": \"minecraft:polished_diorite\",\n    \"trim\": \"minecraft:blue_terracotta\"\n  },\n  \"footprint\": {\n    \"width\": 10,\n    \"depth\": 9\n  },\n  \"decorations\": [\n    \"pergola\",\n    \"shutters\",\n    \"flower_pots\",\n    \"stone_path\"\n  ]\n}",
+  "params": {
+    "style": "traditional",
+    "floors": 2,
+    "roof_type": "terraced",
+    "palette": {
+      "wall": "minecraft:smooth_quartz",
+      "roof": "minecraft:smooth_quartz",
+      "accent": "minecraft:polished_diorite",
+      "trim": "minecraft:blue_terracotta"
+    },
+    "footprint": {
+      "width": 10,
+      "depth": 9
+    },
+    "decorations": [
+      "pergola",
+      "shutters",
+      "flower_pots",
+      "stone_path"
+    ]
+  }
+}
